@@ -1,0 +1,742 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: 0;
+}
+
+.Navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 3em;
+  padding-top: 1em;
+}
+
+.Navbar .content {
+  width: 50%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.Navbar .content a {
+  text-decoration: none;
+  font-size: larger;
+  text-transform: capitalize;
+  color: black;
+}
+
+.Navbar .login {
+  width: 15%;
+  font-size: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  cursor: pointer;
+}
+
+.sidebar {
+  display: none;
+}
+
+@media screen and (max-width: 900px) {
+  .sidebar {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .sidebar .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sidebar .sidebar-header .close-btn {
+    width: 50px;
+    height: 50px;
+    color: orange;
+    background: none;
+    font-size: 2em;
+    border: none;
+    cursor: pointer;
+  }
+
+  .sidebar .links li {
+    padding: 1em 1em;
+  }
+  .sidebar .links li a {
+    text-decoration: none;
+    font-size: 1.5em;
+    text-transform: capitalize;
+    color: black;
+  }
+
+  .sidebar .login {
+    width: 100%;
+    padding: 1em 1em;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: 2em;
+  }
+  .Navbar {
+    display: none;
+  }
+}
+
+.HomePage .Hero {
+  width: 95%;
+  height: calc(100vh - 6.5em);
+  padding: 5em 0;
+  padding-left: 1em;
+  padding-right: 0.5em;
+  display: grid;
+  column-gap: 10px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.HomePage .Hero .image_section {
+  position: relative;
+}
+.HomePage .Hero .image_section img {
+  width: 80%;
+  height: 96%;
+  float: right;
+  border-radius: 10px;
+}
+
+.HomePage .Hero .main_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  font-size: 1.5em;
+  width: 100%;
+  height: 60%;
+  line-height: 1.5em;
+  padding: 3em 0;
+}
+
+.HomePage .Hero .main_content h1 {
+  max-width: 400px;
+  line-height: 1em;
+}
+
+.HomePage .Hero .main_content button {
+  padding: 20px 30px;
+  background-color: rgba(168, 209, 19, 0.757);
+  margin-top: 2em;
+  border-radius: 10px;
+  border: 0;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+  color: white;
+}
+.HomePage .Hero .image_section > img:nth-child(2) {
+  width: 60%;
+  height: 40%;
+  position: absolute;
+  left: -10%;
+  top: 56%;
+}
+.HomePage .Hero .image_section::before {
+  position: absolute;
+  content: '';
+  top: 10%;
+  background-color: rgba(193, 141, 19, 0.474);
+  width: 10%;
+  height: 80%;
+  border-radius: 5px;
+  z-index: -1;
+  left: 15%;
+}
+
+/* Feature Products */
+.FeaturedProduct {
+  padding: 5em 0;
+  text-align: center;
+  background-color: rgba(8, 153, 153, 0.516);
+}
+
+.FeaturedProduct .center-div {
+  text-align: center;
+}
+
+.FeaturedProduct .center-div .title {
+  margin: 2em 0;
+}
+.underline {
+  margin: 10px auto;
+  border: 2px solid orange;
+  width: 10%;
+}
+
+.FeaturedProduct .center-div > div:nth-child(2) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  column-gap: 15px;
+  grid-template-rows: 250px;
+  row-gap: 50px;
+}
+.FeaturedProduct .center-div > div:nth-child(2) .ProductItem .image {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  object-fit: center;
+}
+.FeaturedProduct .center-div > div:nth-child(2) .ProductItem .image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.FeaturedProduct
+  .center-div
+  > div:nth-child(2)
+  .ProductItem
+  .image
+  .animation-hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.FeaturedProduct
+  .center-div
+  > div:nth-child(2)
+  .ProductItem
+  .image
+  .animation-hover
+  a {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  border-radius: 100%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: yellowgreen;
+  cursor: pointer;
+}
+.FeaturedProduct
+  .center-div
+  > div:nth-child(2)
+  .ProductItem
+  .image:hover
+  > .animation-hover {
+  display: block;
+  background-color: rgba(153, 166, 8, 0.413);
+  transition: all 0.3s linear;
+}
+
+.FeaturedProduct .center-div > div:nth-child(2) .ProductItem .content {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 10px;
+  font-weight: 1em;
+  font-size: larger;
+  text-transform: capitalize;
+}
+
+.FeaturedProduct
+  .center-div
+  > div:nth-child(2)
+  .ProductItem
+  .content
+  > span:nth-child(2) {
+  color: rgb(136, 88, 7);
+}
+
+.FeaturedProduct button {
+  margin-top: 3em;
+  padding: 20px 20px;
+  font-size: larger;
+  font-weight: bold;
+  color: white;
+  text-transform: capitalize;
+  border: none;
+  background: rgba(170, 113, 9, 0.485);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.services {
+  padding-top: 5em;
+  background-color: rgba(152, 76, 48, 0.363);
+}
+
+.services .introduce {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-bottom: 4em;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.services .introduce h1 {
+  max-width: 290px;
+  font-size: 2em;
+}
+
+.services .introduce p {
+  font-size: large;
+}
+.services section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  width: 90%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.services section article {
+  background-color: rgb(177, 126, 96);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3em 1em;
+  text-align: center;
+  line-height: 1.5em;
+  border-radius: 20px;
+}
+
+.services section article > p:nth-child(1) {
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  font-size: 2em;
+  font-weight: bolder;
+  padding: 10px 10px;
+}
+
+.services section article > p:nth-child(2) {
+  font-size: 1.5em;
+  font-weight: bolder;
+  margin: 1em 0;
+}
+
+.contact {
+  padding: 5em 2em;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.contact .content {
+  line-height: 2em;
+}
+.contact form {
+  border: 2px solid black;
+  height: 40px;
+  display: flex;
+}
+.contact form input {
+  flex: 1;
+  height: 100%;
+  font-size: larger;
+  border: none;
+  padding-left: 20px;
+  border-right: 2px solid black;
+}
+.contact form button {
+  height: 100%;
+  padding: 0 3.9%;
+  font-size: large;
+  background-color: none;
+  border-radius: none;
+  background-color: rgb(177, 126, 96);
+  border: none;
+}
+
+.Footer {
+  padding: 3em 0;
+  text-align: center;
+  background-color: black;
+  color: rgba(255, 255, 255, 0.519);
+  font-size: 1.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: relative;
+  left: 0;
+  bottom: 0;
+}
+
+.Footer span {
+  color: yellowgreen;
+}
+
+.about {
+  padding: 0 0;
+  margin: 0;
+}
+.about section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: fit-content;
+  gap: 20px;
+  padding: 2em 2em;
+}
+
+.about section .content h1 {
+  text-align: center;
+}
+
+.about section .content {
+  margin: 1em 0;
+  line-height: 1.5em;
+  color: rgb(109, 113, 113);
+  font-size: large;
+}
+.about section .image {
+  border-radius: 20px;
+}
+.about section .image img {
+  width: 90%;
+  height: 90%;
+  border-radius: 10px;
+}
+.pagehero {
+  font-size: 2em;
+  font-weight: bold;
+  padding: 1em 1em;
+  margin: 1em 0;
+  text-transform: capitalize;
+  color: white;
+  background-color: rgb(175, 102, 75);
+}
+
+.pagehero span {
+  color: rgba(105, 36, 6, 0.862);
+}
+
+.Filters {
+  padding: 0 1em;
+}
+
+.Fileters form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.Filters form .form-control input {
+  width: 100%;
+  padding: 10px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: rgba(197, 188, 188, 0.456);
+  font-size: larger;
+  margin: 1em 0;
+}
+
+.Filters form .category div button {
+  display: block;
+  border: none;
+  padding: 0.5em 0;
+  margin: 10px 0;
+  background: none;
+  text-transform: capitalize;
+  color: rgb(109, 113, 113);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.Filters form .company h3 {
+  margin: 0.5em 0;
+}
+.Filters form select {
+  border: none;
+  margin: 0.5em 0;
+  text-transform: capitalize;
+  font-size: 1em;
+}
+
+.Filters form .colors {
+  margin: 0.5em 0;
+}
+.Filters form .colors h3 {
+  margin: 0.5em 0;
+}
+
+.Filters form .colors > div:nth-child(2) {
+  display: flex;
+  align-items: center;
+}
+.Filters form .colors > div:nth-child(2) button {
+  width: 15px;
+  height: 15px;
+  border-radius: 100%;
+  border: none;
+  margin: 0 5px;
+  cursor: pointer;
+  background: none;
+  text-transform: capitalize;
+}
+
+.Filters form .price {
+  margin: 1em 0;
+  text-transform: capitalize;
+}
+
+.Filters form .shipping {
+  display: flex;
+  justify-content: space-between;
+  text-transform: capitalize;
+  font-size: 1.2em;
+  margin: 1em 0;
+}
+
+.Filters .clear-btn {
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  background-color: rgb(178, 13, 13);
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+}
+
+/* Sort */
+.Sort {
+  display: grid;
+  grid-template-columns: 100px 150px 1fr 250px;
+  padding: 1.5em 0;
+  align-items: center;
+  text-transform: capitalize;
+  font-size: 1.2em;
+}
+
+.Sort .btn-container button {
+  margin: 0 0.2em;
+  padding: 5px;
+  border-radius: 2px;
+  font-size: large;
+  border: none;
+  cursor: pointer;
+}
+.Sort .line {
+  height: 1px;
+  width: 95%;
+  background-color: gray;
+  margin: 0 auto;
+}
+
+.Sort form {
+  display: flex;
+  justify-content: center;
+}
+
+.Sort form select {
+  border: none;
+  background: none;
+  padding: 0 0.5em;
+  text-transform: capitalize;
+  font-size: 1em;
+}
+
+/* ProductItem */
+.GridView {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 50px;
+}
+.ProductItem .image {
+  width: 100%;
+  position: relative;
+  object-fit: center;
+}
+.ProductItem .image img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.ProductItem .image .animation-hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.ProductItem .image .animation-hover a {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  border-radius: 100%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: yellowgreen;
+  cursor: pointer;
+}
+
+.ProductItem .image:hover > .animation-hover {
+  display: block;
+  background-color: rgba(153, 166, 8, 0.413);
+  transition: all 0.3s linear;
+  border-radius: 10px;
+}
+.ProductItem .content {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 10px;
+  font-weight: 1em;
+  font-size: larger;
+  text-transform: capitalize;
+}
+
+.ListView > div {
+  margin: 1em 1em;
+}
+.ListView > div .image {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ListView > div .image .image-container {
+  width: 100%;
+  height: 200px;
+}
+
+.ListView > div .image .image-container img {
+  width: 90%;
+  height: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+.ListView > div .image .content > p {
+  padding: 0.3em 0;
+}
+.ListView > div .image .content > p:nth-child(1) {
+  text-transform: capitalize;
+  font-size: larger;
+  font-weight: bold;
+}
+
+.ListView > div .image .content > p:nth-child(2) {
+  text-transform: capitalize;
+  font-size: larger;
+  font-weight: bold;
+  color: rgb(158, 106, 11);
+}
+
+.ListView > div .image .content button {
+  padding: 5px 10px;
+  margin-top: 10px;
+  border: none;
+  background-color: rgba(255, 166, 0, 0.517);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Single page */
+.SinglePage button {
+  padding: 5px 10px;
+  background-color: rgb(185, 123, 7);
+  border: none;
+  font-size: 1.2em;
+  text-transform: uppercase;
+  color: white;
+  margin-bottom: 1em;
+}
+.SinglePage .main-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.SinglePage .image {
+  width: 100%;
+}
+.SinglePage .image .ProductImages .image img {
+  width: 24%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-left: 1%;
+}
+.SinglePage .image .ProductImages .image > img:nth-child(1) {
+  display: block;
+  width: 99%;
+  height: 60vh;
+}
+
+.SinglePage .main-content .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 1.2em;
+  text-transform: capitalize;
+  margin: 0.5em 0;
+}
+
+/* Stars */
+.Stars {
+  color: rgb(134, 134, 8);
+}
+
+.Stars span {
+  color: #000;
+}
+
+.CartAmountButtons {
+  display: flex;
+  justify-content: space-between;
+  width: 200px;
+  margin: 1.5em 0;
+  font-weight: bold;
+  color: orange;
+}
+
+.AddToCart a {
+  text-decoration: none;
+  padding: 5px 10px;
+  background-color: rgb(199, 133, 11);
+  color: white;
+  margin-bottom: 10px;
+}
+
+/* Cart Container */
+.CartContainer {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+/* CartItem */
+.CartItem .image img {
+  width: 100px;
+  height: 100px;
+  object-fit: center;
+}
