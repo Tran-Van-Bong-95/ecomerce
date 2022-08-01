@@ -10,13 +10,9 @@ import {
 import reducer from '../reducer/cart_reducer'
 
 const getLocalStorage = () => {
-  let cart = localStorage.getItem('cart')
-
-  if (cart === true) {
-    return JSON.parse(localStorage.getItem('cart'))
-  } else {
-    return []
-  }
+  return localStorage.getItem('cart')
+    ? JSON.parse(localStorage.getItem('cart'))
+    : []
 }
 
 const initialState = {
@@ -31,6 +27,12 @@ const CartContext = createContext()
 export function CartProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
 
+  // set CartItem
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(state.cart))
+    dispatch({ type: TOTAL_AMOUNT })
+  }, [state.cart])
+
   // add to cart
   const addToCart = (id, amount, mainColor, products) => {
     dispatch({
@@ -42,7 +44,9 @@ export function CartProvider({ children }) {
   /*
   nhìn vào phần cartItem ta thấy addToCart cần các thứ sau:
   images, name, price, color, category,  id, stock 
+  id ở đây là dạng id + color rồi nên bên phần reduce items trong cart sẽ cần chuyển đổi lại id sao cho bằng id + color 
   */
+
   // decrease, increase
   const controlButton = (text, id) => {
     dispatch({ type: TOGGLE_AMOUNT, payload: { text, id } })
@@ -57,12 +61,6 @@ export function CartProvider({ children }) {
   const clear_Shopping_Cart = () => {
     dispatch({ type: CLEAR_SHOPPING_CART })
   }
-
-  // set CartItem
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(state.cart))
-    dispatch({ type: TOTAL_AMOUNT })
-  }, [state.cart])
 
   return (
     <CartContext.Provider

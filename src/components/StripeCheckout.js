@@ -8,108 +8,99 @@
 // create a paymentMethod ( When we create a payment method we're going to need a reference
 // to the cardElement )
 // confirm the card payments by payment method id and client secret
-
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import styled from 'styled-components'
 import { loadStripe } from '@stripe/stripe-js'
 import {
-  Elements,
-  useElement,
-  useStripe,
   CardElement,
+  useStripe,
+  Elements,
+  useElements,
 } from '@stripe/react-stripe-js'
-
+import axios from 'axios'
 import { useGlobalCartVariable } from '../context/CartContext'
 import { useGlobalVariable } from '../context/UserContext'
-import axios from 'axios'
 import { formatPrice } from '../utils/helper'
+import { useNavigate } from 'react-router-dom'
 
-const stripePromise = loadStripe(`${process.env.REACT_PUBLIC_KEY}`)
+const promise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY)
 
-function Checkout() {
-  const { total_price: price } = useGlobalCartVariable()
+const CheckoutForm = () => {
+  const { cart, total_items, total_price, shipping_fee, clear_Shopping_Cart } =
+    useGlobalCartVariable()
   const { myUser } = useGlobalVariable()
-  const [isProcessing, setIsProcessing] = useState(false)
-  const [isCheckoutError, setIsCheckoutError] = useState(null)
+  const navigate = useNavigate()
   const [succeeded, setSucceeded] = useState(false)
-  const [disable, setDisable] = useState(true)
-
-  // get stripe back
+  const [error, setError] = useState(null)
+  const [processing, setProcessing] = useState('')
+  const [disabled, setDisabled] = useState(true)
+  const [clientSecret, setClientSecret] = useState('')
   const stripe = useStripe()
+  const elements = useElements()
 
-  // use element to truyền thông tin thanh toán đã thu thập 1 cách an toàn bởi Payment Element tới Stripe API, truy cập ELements instance để mà có thể sử dụng nó với stripe.confirmPayment. Sử dụng useElements là 1 cách để truy cập 1 mounted Element
-
-  // "Mounting" is when React "renders" the component for the first time and actually builds the initial DOM from those instructions
-
-  // tóm lại ta sử dụng useElement để trích xuất that elements Object từ stripe.js được tạo ra
-  const element = useElement()
-
-  const cardElement = element.getElement('card')
-  setIsProcessing(true)
-
-  const styleCardElement = {
-    base: {
-      iconColor: '#fff',
-      fontSize: '16px',
-      color: '#fff',
-      '::placeholder': {
-        color: '#87bbfd',
-      },
-    },
-    invalid: {
-      iconColor: '#FFC7EE',
-      color: '#FFC7EE',
-    },
-
-    complete: {
-      iconColor: '#cbf4c9',
-    },
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-
+  const createPaymentIntent = async () => {
     try {
-      const { data: clientSecret } = await axios.post(
-        '/functions/PaymentIntent',
-        {
-          amount: price * 100,
-        }
+      const { data } = await axios.post(
+        '../functions/PaymentIntent',
+
+        JSON.stringify({ cart, shipping_fee, total_items })
       )
-
-      const paymentMethodBq = stripe.createPaymentMethod({
-        type: 'card',
-        card: cardElement,
-      })
-
-      if (paymentMethodBq.error) {
-        setIsCheckoutError(paymentMethodBq.error.message)
-        setIsProcessing(false)
-        setSucceeded(false)
-        return
-      }
-
-      const { error } = stripe.confirmPaymentIntent(clientSecret, {
-        payment_method: paymentMethodBq.paymentMethod.id,
-      })
-
-      if (error) {
-        setIsCheckoutError(error.message)
-        setIsProcessing(false)
-        setSucceeded(false)
-        return
-      }
-      setIsCheckoutError(null)
-      setSucceeded(true)
-      setIsProcessing(false)
+      setClientSecret(data.clientSecret)
     } catch (error) {
-      setIsCheckoutError(error.message)
-      setSucceeded(false)
-      setIsProcessing(false)
+      // console.log(error.response)
     }
   }
+  useEffect(() => {
+    createPaymentIntent()
+    // eslint-disable-next-line
+  }, [])
 
+  const cardStyle = {
+    style: {
+      base: {
+        color: '#32325d',
+        fontFamily: 'Arial, sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '16px',
+        '::placeholder': {
+          color: '#32325d',
+        },
+      },
+      invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a',
+      },
+    },
+  }
+  const handleChange = async (event) => {
+    // Listen for changes in the CardElement
+    // and display any errors as the customer types their card details
+    setDisabled(event.empty)
+    setError(event.error ? event.error.message : '')
+  }
+  const handleSubmit = async (ev) => {
+    ev.preventDefault()
+    setProcessing(true)
+    const payload = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement(CardElement),
+      },
+    })
+    if (payload.error) {
+      setError(`Payment failed ${payload.error.message}`)
+      setProcessing(false)
+    } else {
+      setError(null)
+      setProcessing(false)
+      setSucceeded(true)
+      setTimeout(() => {
+        clear_Shopping_Cart()
+        navigate('/')
+      }, 10000)
+    }
+  }
   return (
-    <div className='checkout'>
+    <div>
       {succeeded ? (
         <article>
           <h4>Thank you</h4>
@@ -119,23 +110,28 @@ function Checkout() {
       ) : (
         <article>
           <h4>Hello, {myUser && myUser.name}</h4>
-          <p>Your total is {formatPrice(price)}</p>
+          <p>Your total is {formatPrice(total_price)}</p>
           <p>Test Card Number: 4242 4242 4242 4242</p>
         </article>
       )}
-      <form onSubmit={handleSubmit}>
-        <CardElement options={styleCardElement} />
-
-        <button disabled={isProcessing || disable}>
-          {isProcessing ? 'Processing' : 'Buy'}
+      <form id='payment-form' onSubmit={handleSubmit}>
+        <CardElement
+          id='card-element'
+          options={cardStyle}
+          onChange={handleChange}
+        />
+        <button disabled={processing || disabled || succeeded} id='submit'>
+          <span id='button-text'>
+            {processing ? <div className='spinner' id='spinner'></div> : 'Pay'}
+          </span>
         </button>
-
-        {isCheckoutError && (
-          <aticle>
-            <h4>Something wrong please check again</h4>
-          </aticle>
+        {/* Show any error that happens when processing the payment */}
+        {error && (
+          <div className='card-error' role='alert'>
+            {error}
+          </div>
         )}
-
+        {/* Show a success message upon completion */}
         <p className={succeeded ? 'result-message' : 'result-message hidden'}>
           Payment succeeded, see the result in your
           <a href={`https://dashboard.stripe.com/test/payments`}>
@@ -151,14 +147,156 @@ function Checkout() {
 
 const StripeCheckout = () => {
   return (
-    <Elements stripe={stripePromise}>
-      <Checkout />
-    </Elements>
+    <Wrapper>
+      <Elements stripe={promise}>
+        <CheckoutForm />
+      </Elements>
+    </Wrapper>
   )
 }
-export default StripeCheckout
 
-// The CardElement component renders the UI for the card number, date expiration, CVC code, and the billing zip code fields.
+const Wrapper = styled.section`
+  form {
+    width: 30vw;
+    align-self: center;
+    box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
+      0px 2px 5px 0px rgba(50, 50, 93, 0.1),
+      0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
+    border-radius: 7px;
+    padding: 40px;
+  }
+  input {
+    border-radius: 6px;
+    margin-bottom: 6px;
+    padding: 12px;
+    border: 1px solid rgba(50, 50, 93, 0.1);
+    max-height: 44px;
+    font-size: 16px;
+    width: 100%;
+    background: white;
+    box-sizing: border-box;
+  }
+  .result-message {
+    line-height: 22px;
+    font-size: 16px;
+  }
+  .result-message a {
+    color: rgb(89, 111, 214);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .hidden {
+    display: none;
+  }
+  #card-error {
+    color: rgb(105, 115, 134);
+    font-size: 16px;
+    line-height: 20px;
+    margin-top: 12px;
+    text-align: center;
+  }
+  #card-element {
+    border-radius: 4px 4px 0 0;
+    padding: 12px;
+    border: 1px solid rgba(50, 50, 93, 0.1);
+    max-height: 44px;
+    width: 100%;
+    background: white;
+    box-sizing: border-box;
+  }
+  #payment-request-button {
+    margin-bottom: 32px;
+  }
+  /* Buttons and links */
+  button {
+    background: #5469d4;
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+    border-radius: 0 0 4px 4px;
+    border: 0;
+    padding: 12px 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: block;
+    transition: all 0.2s ease;
+    box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
+    width: 100%;
+  }
+  button:hover {
+    filter: contrast(115%);
+  }
+  button:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+  /* spinner/processing state, errors */
+  .spinner,
+  .spinner:before,
+  .spinner:after {
+    border-radius: 50%;
+  }
+  .spinner {
+    color: #ffffff;
+    font-size: 22px;
+    text-indent: -99999px;
+    margin: 0px auto;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    box-shadow: inset 0 0 0 2px;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  .spinner:before,
+  .spinner:after {
+    position: absolute;
+    content: '';
+  }
+  .spinner:before {
+    width: 10.4px;
+    height: 20.4px;
+    background: #5469d4;
+    border-radius: 20.4px 0 0 20.4px;
+    top: -0.2px;
+    left: -0.2px;
+    -webkit-transform-origin: 10.4px 10.2px;
+    transform-origin: 10.4px 10.2px;
+    -webkit-animation: loading 2s infinite ease 1.5s;
+    animation: loading 2s infinite ease 1.5s;
+  }
+  .spinner:after {
+    width: 10.4px;
+    height: 10.2px;
+    background: #5469d4;
+    border-radius: 0 10.2px 10.2px 0;
+    top: -0.1px;
+    left: 10.2px;
+    -webkit-transform-origin: 0px 10.2px;
+    transform-origin: 0px 10.2px;
+    -webkit-animation: loading 2s infinite ease;
+    animation: loading 2s infinite ease;
+  }
+  @keyframes loading {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  @media only screen and (max-width: 600px) {
+    form {
+      width: 80vw;
+    }
+  }
+`
+
+export default StripeCheckout
+// ers the UI for the card number, date expiration, CVC code, and the billing zip code fields.
 
 /*
 // Learning

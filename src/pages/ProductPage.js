@@ -4,12 +4,12 @@ import { PageHero, Filters, Sort, ProductContainer } from '../components'
 
 function ProductPage() {
   return (
-    <div>
+    <div className='productPage'>
       <PageHero title='products' />
       <Wrapper className='page'>
-        <div className='section-center products'>
+        <div className='section-center'>
           <Filters />
-          <div>
+          <div className='sortContainer'>
             <Sort />
             <ProductContainer />
           </div>
@@ -26,7 +26,7 @@ const Wrapper = styled.div`
     margin: 4rem auto;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 900px) {
     .products {
       grid-template-columns: 200px 1fr;
     }

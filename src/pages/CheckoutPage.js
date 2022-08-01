@@ -4,13 +4,13 @@ import { useGlobalVariable } from '../context/UserContext'
 import { PageHero, StripeCheckout } from '../components/index'
 
 function CheckoutPage() {
-  const { user } = useGlobalVariable()
+  const { myUser } = useGlobalVariable()
 
   return (
-    <div className='Checkout Page'>
+    <div className='CheckoutPage'>
       <PageHero title='checkout' />
       <div className='content'>
-        {user ? (
+        {myUser ? (
           <StripeCheckout />
         ) : (
           <div className='empty'>

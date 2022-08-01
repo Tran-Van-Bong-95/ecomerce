@@ -1,7 +1,6 @@
 import React, { useContext, createContext, useReducer, useEffect } from 'react'
 import { useGlobalProduct } from '../context/ProductContext'
 import { filters_reducer as reducer } from '../reducer/filters_reducer'
-
 import {
   LOADING_PRODUCTS,
   UPDATE_FILTER,

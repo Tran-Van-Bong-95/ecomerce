@@ -40,8 +40,9 @@ export const filters_reducer = (state, { type, payload }) => {
         },
       }
     }
-    // using spread operator to create an object that is updated to create the one lastest version
 
+    // using spread operator to create an object that is updated to create the one lastest version
+    // run by the order below
     case FILTER: {
       const { text, category, company, color, price, free_shipping } =
         state.filter

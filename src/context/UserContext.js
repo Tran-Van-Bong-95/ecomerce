@@ -11,7 +11,8 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     setMyUser(user)
-  })
+  }, [user])
+
   return (
     <myUserContext.Provider
       value={{

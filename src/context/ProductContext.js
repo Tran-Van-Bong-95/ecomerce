@@ -16,7 +16,6 @@ import {
 } from '../action'
 
 /*
-
 sidebar open
 Sidebar close
 

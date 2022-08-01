@@ -1,18 +1,18 @@
 import React from 'react'
-import styled from 'styled-components'
+
 function CartColumns() {
   return (
-    <Wrapper>
+    <>
       <div className='CartColumns'>
         <span> Item </span>
         <span> Price </span>
         <span> Quantity </span>
         <span> Subtotal </span>
       </div>
-    </Wrapper>
+      <br />
+      <div className='cartUnderline'></div>
+    </>
   )
 }
 
 export default CartColumns
-
-const Wrapper = styled.div``

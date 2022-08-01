@@ -18,4 +18,4 @@ function PrivateRoute() {
 export default PrivateRoute
 
 // vì trong {...rest} có path prop từ Route  rồi
-// để chuyển  1 page sang  page khác dưới  điều kiện hay  changes the current location when it is rendered ta dùng Ridirect
+// để chuyển  1 page sang  page khác dưới  điều kiện hay  changes the current location when it is rendered ta dùng Ridirect. Render under conditions

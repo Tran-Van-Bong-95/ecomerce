@@ -60,13 +60,13 @@ export const products_reducer = (state, { type, payload }) => {
     case SIDEBAR_OPEN:
       return {
         ...state,
-        isSisebarOpen: true,
+        isSidebarOpen: true,
       }
 
     case SIDEBAR_CLOSE:
       return {
         ...state,
-        isSisebarOpen: false,
+        isSidebarOpen: false,
       }
 
     default:

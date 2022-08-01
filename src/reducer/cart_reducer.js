@@ -15,6 +15,7 @@ const cart_reducer = (state, { type, payload }) => {
       // nếu lần đầu ấn vào add to cart không có id = id + color thì nó sẽ làm cho thoả mãn cái id = id + color đó trong phần singleProduct
 
       // còn cartProduct đó đã ấn rồi thì tức là nó ở trong cart rồi giờ ấn nút '+' thì nó sẽ tăng số lượng lên.
+
       if (tempProduct) {
         const tempCart = state.cart.map((cartItem) => {
           if (cartItem.id === id + color) {
@@ -48,6 +49,7 @@ const cart_reducer = (state, { type, payload }) => {
       }
     }
 
+    // từ đây trở đi id sẽ được chuyển đổi thành id + color
     case REMOVE_ITEM: {
       const tempProduct = state.cart.filter((item) => item.id !== payload)
 
@@ -74,16 +76,18 @@ const cart_reducer = (state, { type, payload }) => {
       }
 
       if (text === 'decrease') {
-        tempProduct.map((item) => {
-          if (item.id === id) {
-            item.amount = item.amount - 1
+        tempProduct = tempProduct
+          .map((item) => {
+            if (item.id === id) {
+              item.amount = item.amount - 1
 
-            if (item.amount < 1) {
-              item.amount = 0
+              if (item.amount < 1) {
+                item.amount = 0
+              }
             }
-          }
-          return item
-        })
+            return item
+          })
+          .filter((item) => item.amount !== 0)
       }
 
       return {

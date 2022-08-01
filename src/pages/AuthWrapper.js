@@ -4,13 +4,14 @@ function AuthWrapper({ children }) {
   const { isLoading, error } = useAuth0()
 
   // isLoading
+
   if (isLoading) {
-    return <p>...Loading</p>
+    return <div className='loading'></div>
   }
 
   // is Error
   if (error) {
-    return <p>...Error</p>
+    return <div className='error'>...Error</div>
   }
 
   // else return {children}

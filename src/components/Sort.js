@@ -14,18 +14,18 @@ function Sort() {
 
   return (
     <div className='Sort'>
-      <span className='btn-container'>
+      <div className='btn-container'>
         <button onClick={setGridView}>
           <BsFillGridFill />
         </button>
         <button onClick={setListView}>
           <BsList />
         </button>
-      </span>
-      <span>{products.length} products found</span>
-      <span className='line'></span>
+      </div>
+      <div className='product-length'>{products.length} products found</div>
+      <div className='line'></div>
       <form>
-        <label htmlFor='sort'>sort by Price </label>
+        <label htmlFor='sort'> sort by Price </label>
         <select name='sort' value={sort} id='sort' onChange={updateSort}>
           <option value='Lowest'>Lowest</option>
           <option value='Highest'>Highest</option>

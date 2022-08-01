@@ -4,9 +4,9 @@ import { FaPlus, FaMinus } from 'react-icons/fa'
 function CartAmountButtons({ increase, decrease, amount }) {
   return (
     <div className='CartAmountButtons'>
-      <FaPlus onClick={() => increase()} />
+      <FaPlus className='icon' onClick={() => increase()} />
       <span>{amount}</span>
-      <FaMinus onClick={() => decrease()} />
+      <FaMinus className='icon' onClick={() => decrease()} />
     </div>
   )
 }

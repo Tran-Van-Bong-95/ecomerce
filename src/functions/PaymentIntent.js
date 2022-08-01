@@ -1,5 +1,5 @@
 import Stripe from '@stripe/stripe-js'
-const stripe = new Stripe(process.env.REACT_SECRET_KEY)
+const stripe = new Stripe(process.env.REACT_APP_STRIPE_SECRET_KEY)
 
 export default async (res, req) => {
   if (req.method === 'POST') {
@@ -7,7 +7,7 @@ export default async (res, req) => {
       const { amount } = req.body
 
       const paymentIntent = await stripe.paymentIntents.create({
-        amount: amount / 100,
+        amount,
         currency: 'usd',
       })
       res.status(200).send(paymentIntent.client_secret)

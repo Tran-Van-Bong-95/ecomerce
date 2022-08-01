@@ -9,22 +9,24 @@ import {
   PrivateRoute,
   ErrorPage,
   AuthWrapper,
+  CheckoutPage,
 } from './pages/index'
 import { Navbar, Footer, Sidebar } from './components/index'
-
+import { useGlobalProduct } from './context/ProductContext'
 function App() {
+  const { isSidebarOpen } = useGlobalProduct()
   return (
     <AuthWrapper>
       <Router>
-        <Navbar />
-        <Sidebar />
+        {isSidebarOpen ? <Sidebar /> : <Navbar />}
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/SinglePage/:id' element={<SinglePage />} />
           <Route path='/cart' element={<CartPage />} />
-          <Route exact path='/' element={<PrivateRoute />}></Route>
+          <Route exact path='/' element={<PrivateRoute />} />
           <Route path='/about' element={<About />} />
           <Route path='/product' element={<ProductPage />} />
+          <Route path='/checkout' element={<CheckoutPage />} />
           <Route path='*' element={<ErrorPage />} />
         </Routes>
         <Footer />

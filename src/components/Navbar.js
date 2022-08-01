@@ -2,14 +2,18 @@ import React from 'react'
 import logo from '../assets/logo.svg'
 import { links } from '../utils/constant'
 import { Link } from 'react-router-dom'
+import { BsReverseLayoutTextSidebarReverse } from 'react-icons/bs'
 import { useGlobalVariable } from '../context/UserContext'
+import { useGlobalProduct } from '../context/ProductContext'
 import { CartButtons } from '../components/index'
+
 function Navbar() {
   const { myUser } = useGlobalVariable()
+  const { isSidebarOpen, sideBarClose, sideBarOpen } = useGlobalProduct()
   return (
     <div className='Navbar'>
-      <div className='logo'>
-        <img src={logo} alt='' />
+      <div>
+        <img src={logo} className='logo' alt='coding addict' />
       </div>
       <div className='content'>
         {links.map((item, index) => {
@@ -20,13 +24,21 @@ function Navbar() {
             </Link>
           )
         })}
+        {myUser && (
+          <li>
+            <Link to='/checkout' style={{ textDecoration: 'none' }}>
+              Checkout
+            </Link>
+          </li>
+        )}
+        <CartButtons />
       </div>
-      {myUser && (
-        <li>
-          <Link to='/checkout'>checkout</Link>
-        </li>
-      )}
-      <CartButtons />
+      <button
+        className='close-btn'
+        onClick={() => (isSidebarOpen ? sideBarClose() : sideBarOpen())}
+      >
+        <BsReverseLayoutTextSidebarReverse />
+      </button>
     </div>
   )
 }
