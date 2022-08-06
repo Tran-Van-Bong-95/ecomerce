@@ -1013,8 +1013,17 @@ a {
   font-weight: bold;
   margin: 1.5em 0;
   color: black;
+  align-items: center;
 }
-
+/* Respnsive CartAmountButtons */
+@media screen and (max-width: 900px) {
+  .CartAmountButtons {
+    justify-content: flex-end;
+    width: 150px;
+    color: orange;
+    z-index: 5;
+  }
+}
 .AddToCart a {
   text-decoration: none;
   padding: 5px 10px;
@@ -1051,12 +1060,25 @@ a {
   width: 90vw;
   text-align: center;
 }
+
+/* Responsive CartColumns */
+@media screen and (max-width: 900px) {
+  .CartContainer .CartColumns {
+    display: none;
+  }
+}
 .icon {
   cursor: pointer;
   padding: 0 10px;
   font-size: 1.8em;
 }
 
+/* Resposive icon */
+@media screen and (max-width: 900px) {
+  .CartContainer .icon {
+    font-size: 1em;
+  }
+}
 .CartItem .icon {
   display: flex;
   justify-content: center;
@@ -1065,11 +1087,18 @@ a {
 .CartItem .cart > span {
   padding: 0 15px;
 }
+
 .cartUnderline {
   background-color: gray;
   width: 90%;
   margin: 10px auto;
   height: 2px;
+}
+
+@media screen and (max-width: 900px) {
+  .cartUnderline {
+    display: none;
+  }
 }
 /* CartItem */
 .CartItem {
@@ -1079,6 +1108,14 @@ a {
   align-items: center;
   width: 90vw;
   margin: 0 auto;
+}
+
+/* Respomsive cartItem */
+@media screen and (max-width: 900px) {
+  .CartItem {
+    margin: 20px 0;
+    font-size: 1em;
+  }
 }
 
 .CartItem .image {
@@ -1094,6 +1131,26 @@ a {
   align-items: center;
   width: 100%;
 }
+
+/* Responsive content of cartitem */
+@media screen and (max-width: 900px) {
+  .CartItem .image .content {
+    display: block;
+  }
+
+  .CartItem .image .content div div p {
+    text-align: right;
+  }
+
+  .CartItem .image .content > p:nth-child(2) {
+    width: 160%;
+    text-align: right;
+  }
+
+  .CartItem > span:nth-child(3) > span {
+    display: none !important;
+  }
+}
 .CartItem .image > div > div {
   display: flex;
   align-items: center;
@@ -1106,6 +1163,8 @@ a {
   margin-right: 10px;
   display: block;
 }
+
+/* Responsive image */
 
 .CartItem .content span {
   display: inline-block;
