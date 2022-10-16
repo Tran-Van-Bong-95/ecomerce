@@ -981,6 +981,7 @@ a {
   object-fit: cover;
   border-radius: 5px;
   margin-left: 1%;
+  margin-top: 2%;
 }
 .SinglePage .image .ProductImages .image > img:nth-child(1) {
   display: block;
@@ -996,7 +997,25 @@ a {
   text-transform: capitalize;
   margin: 0.5em 0;
 }
+/*Responsive Single Page*/
+@media screen and (max-width: 900px){
+  .SinglePage .main-content {
+  display: grid;
+  grid-template-columns: 1fr ;
+  gap: 10px;
+}
 
+.SinglePage .image .ProductImages .image > img:nth-child(1) {
+  display: block;
+  width: 99%;
+  height: 50vh;
+}
+.SinglePage .image .ProductImages .image > :not(img:nth-child(1)){
+  display: block;
+  width: 99%;
+  height: 20vh;
+}
+}
 /* Stars */
 .Stars {
   color: rgb(134, 134, 8);
