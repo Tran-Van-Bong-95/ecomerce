@@ -3,15 +3,21 @@ import { Link } from 'react-router-dom'
 import { useGlobalVariable } from '../context/UserContext'
 import { FaUserPlus, FaUserMinus, FaShoppingCart } from 'react-icons/fa'
 import { useGlobalCartVariable } from '../context/CartContext'
+import { useGlobalProduct } from '../context/ProductContext'
 
 function CartButtons() {
   const { myUser, loginWithRedirect, logout } = useGlobalVariable()
   const { clear_Shopping_Cart, cart } = useGlobalCartVariable()
-
+  const { isSidebarOpen, sideBarClose, sideBarOpen } = useGlobalProduct()
   return (
     <div className='cartButtons-container'>
       <Link to='/cart' className='cart-button'>
-        <p style={{ padding: '0 10px' }}>Cart</p>
+        <p
+          style={{ padding: '0 10px' }}
+          onClick={() => (isSidebarOpen ? sideBarClose() : sideBarOpen())}
+        >
+          Cart
+        </p>
         <span>
           <FaShoppingCart /> <span className='amount'>{cart.length}</span>
         </span>
