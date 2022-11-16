@@ -50,12 +50,16 @@ export const filters_reducer = (state, { type, payload }) => {
       const { all_products } = state
       let tempProduct = [...all_products]
       if (text !== 'all') {
-        tempProduct = tempProduct.filter((item) =>
-          item.name.toLowerCase().startsWith(text)
+        tempProduct = tempProduct.filter(
+          (item) =>
+            item.name.toUpperCase().includes(text) ||
+            item.name.toLowerCase().includes(text)
         )
       }
 
       if (category !== 'all') {
+        tempProduct = tempProduct.sort()
+        console.log(tempProduct)
         tempProduct = tempProduct.filter((item) => item.category === category)
       }
 
